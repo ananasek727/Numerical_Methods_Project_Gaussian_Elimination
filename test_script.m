@@ -10,7 +10,6 @@ for i = 1:size
     % Create random matrix of size i
     A = rand(i, i);
     
-    
     [detGE, detGECP, growthFactorGE, growthFactorGECP] = computeDetAndGrowthFactor(A);
     
     % Calculate determinant using MATLAB det() function
@@ -42,8 +41,10 @@ writetable(T,'Random_error.csv')
 
 error_detGE = zeros(1, 3);
 error_detGECP = zeros(1, 3);
+
 % Row dominate matrix
 A = [4, 1, 1; 2, 6, 2; 1, 1, 3];
+
 % Calculate determinant using MATLAB det() function
 determinant = det(A);
 [detGE, detGECP, growthFactorGE, growthFactorGECP] = computeDetAndGrowthFactor(A);
@@ -56,8 +57,10 @@ fprintf("Growth factor GECP: %.6f\n", growthFactorGECP);
 fprintf("#################################\n");
 error_detGE(1) = abs(detGE - determinant);
 error_detGECP(1) = abs(detGECP - determinant);
+
 % Column dominate matrix
 A = [2, -1, 0; -2, 3, -1; 1, -1, 4];
+
 % Calculate determinant using MATLAB det() function
 determinant = det(A);
 [detGE, detGECP, growthFactorGE, growthFactorGECP] = computeDetAndGrowthFactor(A);
@@ -70,8 +73,10 @@ fprintf("Growth factor GECP: %.6f\n", growthFactorGECP);
 fprintf("#################################\n");
 error_detGE(2) = abs(detGE - determinant);
 error_detGECP(2) = abs(detGECP - determinant);
+
 % Column dominate matrix
 A = [1,1,2,3; 5,8,-1,-7; -10, -10, 2, 4; 6,8,9,9];
+
 % Calculate determinant using MATLAB det() function
 determinant = det(A);
 [detGE, detGECP, growthFactorGE, growthFactorGECP] = computeDetAndGrowthFactor(A);
@@ -85,11 +90,14 @@ fprintf("#################################\n");
 error_detGE(3) = abs(detGE - determinant);
 error_detGECP(3) = abs(detGECP - determinant);
 
+% Creating csv file
 T = table(error_detGE', error_detGECP', 'VariableNames' ...
     , {'error_detGE', 'error_detGECP'});
 
 writetable(T,'Random_error_2.csv')
+
 %% FIGURE 3
+
 size = 100;
 time_GE = zeros(1, size);
 time_GECP = zeros(1, size);
