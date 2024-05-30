@@ -50,6 +50,11 @@ function [det,growthFactor] = computeDetAndGrowthFactorUsingGECP(A)
             swaps_count = swaps_count + 1;
         end
         
+        % Check for zero pivot element to avoid division by zero
+        if A(i, i) == 0
+            error('Zero pivot encountered. Division by 0 not possible');
+        end
+
         % Indices bellow the pivot
         z = (i + 1):n;
 
@@ -58,17 +63,25 @@ function [det,growthFactor] = computeDetAndGrowthFactorUsingGECP(A)
 
         % Vectorization over columns
         A(z, i:end) = A(z, i:end) - multiplicitiy * A(i, i:end);
+        
+        % Making sure that elements bellow pivots are zeros
+        A((i + 1):n, i) = 0;
+        
         % Getting the maximum element of matrix
         current = max(current, max(abs(A(:))));
     end
     
     % Linear indices of the diagonal elements
-    indices_diagonal = 1:n+1:n^2; 
+    indices_diagonal = 1:n+1:n^2;
+
+    % Calculating the determinate by multiplying diagonal elements
     det = prod(A(indices_diagonal));
     
     % Adjust sign of determinant based on number of swaps
     if mod(swaps_count, 2) == 1
         det = -det;
     end
+
+    % Calculating the growth factor of a matrix
     growthFactor = current / origin;
 end
