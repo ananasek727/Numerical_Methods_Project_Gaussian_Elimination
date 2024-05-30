@@ -8,7 +8,8 @@ error_detGE = zeros(1, size);
 error_detGECP = zeros(1, size);
 for i = 1:size
     % Create random matrix of size i
-    A = rand(size, size);
+    A = rand(i, i);
+    
     
     [detGE, detGECP, growthFactorGE, growthFactorGECP] = computeDetAndGrowthFactor(A);
     
@@ -16,7 +17,7 @@ for i = 1:size
     determinant = det(A);
     
     % Display results
-    fprintf("#################################\n");
+    fprintf("Matrix with size %d \n", i);
     fprintf("Determinant (MATLAB det()): %.6f\n", determinant);
     fprintf("Determinant  error GE: %.6f\n", abs(detGE - determinant));
     fprintf("Determinant  error GECP: %.6f\n", abs(detGECP - determinant));
