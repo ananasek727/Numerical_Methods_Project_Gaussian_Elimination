@@ -26,19 +26,30 @@ function [det, growthFactor] = computeDetAndGrowthFactorUsingGE(A)
         % Indices bellow the pivot
         j = (i + 1):n;
 
+        % Check for zero pivot element to avoid division by zero
+        if A(i, i) == 0
+            error('Zero pivot encountered. Division by 0 not possible');
+        end
+
         % Multiplicity used to substruct j row
         multiplicitiy = A(j, i) / A(i, i);
 
         % Vectorization over columns
         A(j, i:end) = A(j, i:end) - multiplicitiy * A(i, i:end);
         
+        % Making sure that elements bellow pivots are zeros
+        A((i + 1):n, i) = 0;
+
         % Getting the maximum element of matrix
         current = max(current, max(abs(A(:))));
     end
 
     % Linear indices of the diagonal elements
     indices_diagonal = 1:n+1:n^2; 
+
+    % Calculating the determinate by multiplying diagonal elements
     det = prod(A(indices_diagonal));
     
+    % Calculating the growth factor of a matrix
     growthFactor = current / origin;
 end
